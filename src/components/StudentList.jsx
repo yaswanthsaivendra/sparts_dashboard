@@ -109,20 +109,21 @@ const StudentList = () => {
   // const [students, setStudents] = useState([]);
   // const [loading, setLoading] = useState(true);
 
-  // useEffect(() => {
-  //   axios.get('http://3.223.98.72:1337/api/students', {
-  //     headers: {
-  //       'Content-Type': 'application/json',
-  //     },
-  //   })
-  //     .then(response => {
-  //       setStudents(response.data); 
-  //       setLoading(false);
-  //     })
-  //     .catch(error => {
-  //       console.error('There was an error fetching the students!', error);
-  //     });
-  // }, []);
+  useEffect(() => {
+    axios.get('http://3.223.98.72:1337/api/students', {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      .then(response => {
+        console.log(response.data);
+        // setStudents(response.data); 
+        // setLoading(false);
+      })
+      .catch(error => {
+        console.error('There was an error fetching the students!', error);
+      });
+  }, []);
 
   // if (loading) {
   //   return <div>Loading...</div>;
