@@ -15,14 +15,14 @@ const SideBar = () => {
       <div className="flex flex-col space-y-16 items-end">
         <div className="flex text-white items-center space-x-2">
           <MdOutlineArrowForwardIos />
-          <MdOutlinePersonAddAlt />
+          <MdOutlinePersonAddAlt className="cursor-pointer" />
         </div>
-        <PiStudent />
-        <FaRegChartBar />
-        <SlCalender />
-        <IoSettingsOutline />
+        <PiStudent className="cursor-pointer" />
+        <FaRegChartBar className="cursor-pointer" />
+        <SlCalender className="cursor-pointer" />
+        <IoSettingsOutline className="cursor-pointer" />
       </div>
-        <HiMiniArrowRightOnRectangle />
+        <HiMiniArrowRightOnRectangle className="cursor-pointer" />
     </div>
   );
 }

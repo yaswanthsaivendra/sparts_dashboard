@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import { FaCheck } from 'react-icons/fa';
 
 const headings = [
   "Photo",
@@ -11,103 +12,12 @@ const headings = [
   "Year group",
 ];
 
-const students = [
-  {
-    id: 1,      
-    first_name: "John",
-    last_name: "Doe",
-    email: "john.doe",
-    phone: "123456789",
-    year_group: "Grade 10",
-    photo: "https://randomuser.me/api/portraits/men/1.jpg",
-  },
-  {
-    id: 2,      
-    first_name: "Jane",
-    last_name: "Doe",
-    email: "jane.doe",
-    phone: "123456789",
-    year_group: "Grade 10",
-    photo: "https://randomuser.me/api/portraits/women/1.jpg",
-  },
-  {
-    id: 3,      
-    first_name: "John",
-    last_name: "Doe",
-    email: "john.doe",
-    phone: "123456789",
-    year_group: "Grade 12",
-    photo: "https://randomuser.me/api/portraits/men/2.jpg",
-  },
-  {
-    id: 4,      
-    first_name: "Jane",
-    last_name: "Doe",
-    email: "jane.doe",
-    phone: "123456789",
-    year_group: "Grade 11",
-    photo: "https://randomuser.me/api/portraits/women/2.jpg",
-  },
-  {
-    id: 5,      
-    first_name: "John",
-    last_name: "Doe",
-    email: "john.doe",
-    phone: "123456789",
-    year_group: "Grade 12",
-    photo: "https://randomuser.me/api/portraits/men/3.jpg",
-  },
-  {
-    id: 6,      
-    first_name: "Jane",
-    last_name: "Doe",
-    email: "jane.doe",
-    phone: "123456789",
-    year_group: "Grade 12",
-    photo: "https://randomuser.me/api/portraits/women/3.jpg",
-  },
-  {
-    id: 7,      
-    first_name: "John",
-    last_name: "Doe",
-    email: "john.doe",
-    phone: "123456789",
-    year_group: "Grade 12",
-    photo: "https://randomuser.me/api/portraits/men/4.jpg",
-  },
-  {
-    id: 8,      
-    first_name: "Jane",
-    last_name: "Doe",
-    email: "jane.doe",
-    phone: "123456789",
-    year_group: "Grade 12",
-    photo: "https://randomuser.me/api/portraits/women/4.jpg",
-  },
-  {
-    id: 9,      
-    first_name: "John",
-    last_name: "Doe",
-    email: "john.doe",
-    phone: "123456789",
-    year_group: "Grade 12",
-    photo: "https://randomuser.me/api/portraits/men/5.jpg",
-  },
-  {
-    id: 10,      
-    first_name: "Jane",
-    last_name: "Doe",
-    email: "jane.doe",
-    phone: "123456789",
-    year_group: "Grade 12",
-    photo: "https://randomuser.me/api/portraits/women/5.jpg",
-  }
 
-]
-
-const StudentList = () => {
+const StudentList = ({ filteredStudents }) => {
   // const [students, setStudents] = useState([]);
   // const [loading, setLoading] = useState(true);
+  const [selectedStudents, setSelectedStudents] = useState({});
+  const [selectAll, setSelectAll] = useState(false);
 
   useEffect(() => {
     axios.get('http://3.223.98.72:1337/api/students', {
@@ -125,16 +35,34 @@ const StudentList = () => {
       });
   }, []);
 
+  const handleCheckboxClick = (id) => {
+    setSelectedStudents(prevSelectedStudents => ({
+      ...prevSelectedStudents,
+      [id]: !prevSelectedStudents[id]
+    }));
+  }
+
+  const handleSelectAll = () => {
+    const newSelectAll = !selectAll;
+    setSelectAll(newSelectAll);
+    const newSelectedStudents = {};
+    filteredStudents.forEach(student => {
+      newSelectedStudents[student.id] = newSelectAll;
+    });
+    setSelectedStudents(newSelectedStudents);
+  };
+
   // if (loading) {
   //   return <div>Loading...</div>;
   // }
-
   return (
     <table className="text-sm text-left border w-full my-6">
       <thead className=" text-gray-400">
         <tr>
           <th className="px-6 py-4 border-b">
-            <div className="border-2 w-4 h-4 cursor-pointer"></div>
+            <div className={`border-2 w-4 h-4 cursor-pointer  ${selectAll ? 'bg-blue-500 border-blue-500' : ''}`}  onClick={handleSelectAll}>
+              {selectAll && <FaCheck size={12} className="text-white" />}
+            </div>
           </th>
           {headings.map((heading, index) => (
             <th key={index} className="px-6 py-4 border-b">
@@ -144,10 +72,12 @@ const StudentList = () => {
         </tr>
       </thead>
       <tbody>
-        {students.map((student, index) => (
+        {filteredStudents.map((student, index) => (
           <tr key={index} className="border-b">
             <td className="px-6 py-1">
-              <div className="border-2 w-4 h-4 cursor-pointer"></div>
+              <div className={`border-2 w-4 h-4 cursor-pointer rounded-sm ${selectedStudents[student.id] ? 'bg-blue-500 border-blue-500' : ''}`} onClick={() => handleCheckboxClick(student.id)}>
+              {selectedStudents[student.id] && <FaCheck size={12} className="text-white" />}
+              </div>
             </td>
             <td className="px-6 py-1.5">
               <img

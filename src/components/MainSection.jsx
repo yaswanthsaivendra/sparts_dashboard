@@ -4,7 +4,7 @@ import { IoFunnelOutline } from "react-icons/io5";
 import StudentList from "./StudentList";
 import BottomBar from "./BottomBar";
 
-const MainSection = () => {
+const MainSection = ({ filteredStudents }) => {
   return (
     <div className="py-4 px-10">
       <h4 className="text-gray-400 text-sm">Select school</h4>
@@ -27,8 +27,8 @@ const MainSection = () => {
         </div>
 
         <div className="flex space-x-8 items-center">
-          <div className="rounded-full border-2 border-gray-300 p-1">
-            <IoFunnelOutline size={20} className=" text-primary" />
+          <div className="text-primary rounded-full border-2 border-gray-300 p-1 cursor-pointer hover:border-primary transition-all duration-200">
+            <IoFunnelOutline size={20} className="" />
           </div>
           <button className="bg-primary rounded-3xl text-white text-sm pl-2 pr-3 py-1.5 flex items-center space-x-1">
             <FaPlus size={14} />
@@ -37,7 +37,7 @@ const MainSection = () => {
         </div>
       </div>
 
-      <StudentList />
+      <StudentList filteredStudents={filteredStudents} />
       <BottomBar />
 
     </div>
